@@ -1,0 +1,10 @@
+var express = require ('express')
+var routes = require('./routes')
+var http = require('http')
+var path = require ('path')
+var urlencoded = require ('url')
+var bodyparser = require ('body-parser')
+var logger = require ('logger')
+var methodoveride = require('method-override')
+var nano = require('nano')('http://localhost:5948')
+
