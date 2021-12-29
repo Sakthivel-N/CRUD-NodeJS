@@ -9,21 +9,24 @@ var methodoveride = require('method-override')
 var nano = require('nano')('http://localhost:5948')
 
 var db=nano.use('address')
-var app=express()
+var app = express()
 app.set('port',process.env.PORT || 3000)
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine','jade')
 
+app.use(bodyparser())
 app.use(bodyparser.json())
-app.use(bodyparser.urlencoded)
+app.use(bodyparser.urlencoded({
+    extended: true
+  }));
 app.use(methodoveride())
 app.use(express.static(path.join(__dirname,'public')))
 
 app.get('/',routes.index)
 app.post('/createdb',(req,res)=>{
-    nano.db.create(req.body,dbname,(err)=>{
-        if(err){
-            res.send("Error in create db"+req.body.dbname)
+    nano.db.create(req.body.dbname,()=>{
+        if(console.error()){
+            res.send("Error in create db "+req.body.dbname)
             return
         }
         res.send("database"+req.body.dbname+"created success!!")
